@@ -1,2 +1,4 @@
 rootProject.name = 'schedule'
 
+includeBuild 'account-service'
+includeBuild 'registry-service'
