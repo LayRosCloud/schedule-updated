@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      author: betrayal
+      id: initialize
+      changes:
+        - createTable:
+            tableName: people
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: lastname
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: firstname
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: patronymic
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: photo
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false

@@ -1,0 +1,16 @@
+version: "3.5"
+volumes:
+  people_base:
+services:
+  personal_service:
+    image: 'mysql:8.0'
+
+    environment:
+      - 'MYSQL_DATABASE=${PEOPLE_DB_SCHEMA}'
+      - 'MYSQL_PASSWORD=${PEOPLE_DB_PWD}'
+      - 'MYSQL_ROOT_PASSWORD=${PEOPLE_DB_PWD}'
+      - 'MYSQL_USER=${PEOPLE_DB_USERNAME}'
+    ports:
+      - '${PEOPLE_DB_PORT}:3306'
+    volumes:
+      - people_base:/var/lib/mysql
