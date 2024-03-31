@@ -17,13 +17,14 @@ import by.betrayal.accountservice.repository.PermissionRepository;
 import by.betrayal.accountservice.repository.UserRepository;
 import by.betrayal.accountservice.service.TokenService;
 import by.betrayal.accountservice.service.UserService;
+import by.betrayal.accountservice.utils.ThrowableUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
@@ -36,6 +37,8 @@ public class UserServiceImpl implements UserService {
     private final PermissionRepository permissionRepository;
     private final TokenService tokenService;
 
+    private static final String AUTHORIZATION_EXCEPTION = "Username or password is incorrect";
+
     @Override
     @Transactional
     public List<UserFullDto> findAll() {
@@ -47,9 +50,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserFullDto findById(Long id) {
-        var user = repository.findById(id).orElseThrow(() ->
-                new NotFoundException()
-        );
+        var user = findByIdOrThrowNotFoundException(id);
 
         return mapper.mapToDto(user);
     }
@@ -57,29 +58,21 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserFullDto create(UserCreateDto dto) {
-        var user = repository.findByEmailOrLogin(dto.getEmail(), dto.getLogin());
-        if (user.isPresent()) {
-            throw new BadRequestException();
-        }
+        repository.findByEmailOrLogin(dto.getEmail(), dto.getLogin()).ifPresent(item -> {
+                throw ThrowableUtils.getBadRequestException();
+            }
+        );
 
         var item = mapper.mapToEntity(dto);
+
         item.setCreatedAt(System.currentTimeMillis());
         item.setPassword(encoder.encode(dto.getPassword()));
         item.setIsBanned(false);
         item.setIsActivated(false);
+
         var result = repository.save(item);
 
-        Set<PermissionEntity> scopeSet = new HashSet<>();
-
-        for (String scopeString : dto.getScopes()) {
-            var scope = Scope.valueOf(scopeString);
-            var permission = new PermissionEntity();
-            permission.setScope(scope);
-            permission.setUser(result);
-            scopeSet.add(permission);
-        }
-
-        permissionRepository.saveAll(scopeSet);
+        savePermissions(result, dto.getScopes());
 
         return mapper.mapToDto(result);
     }
@@ -87,23 +80,12 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public JwtFullDto login(UserLoginDto dto) {
-        UserEntity user;
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9._]+@[a-zA-Z]+\\.[a-zA-Z]{2,3}$");
-
-        if (pattern.matcher(dto.getUsername()).find()) {
-            user = repository.findByEmail(dto.getUsername()).orElseThrow(() ->
-                    new BadRequestException("Email")
-            );
-        } else {
-            user = repository.findByLogin(dto.getUsername()).orElseThrow(() ->
-                    new BadRequestException("Login")
-            );
-        }
+        UserEntity user = findByUsername(dto.getUsername());
 
         var equalsPassword = encoder.matches(dto.getPassword(), user.getPassword());
 
         if (!equalsPassword) {
-            throw new BadRequestException("Password");
+            throw ThrowableUtils.getBadRequestException(AUTHORIZATION_EXCEPTION);
         }
 
         var tokens = tokenService.generateTokens(user);
@@ -115,7 +97,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public JwtFullDto refresh(RefreshAccessTokenDto dto) {
         if (tokenService.expiredToken(dto.getRefreshToken())) {
-            throw new BadRequestException();
+            throw ThrowableUtils.getNotAuthorizationException();
         }
 
         return tokenService.refresh(dto.getRefreshToken());
@@ -129,21 +111,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserFullDto update(UserUpdateDto dto) {
-        var user = repository.findById(dto.getId()).orElseThrow(() ->
-                new NotFoundException(dto.getId().toString())
-        );
+        var user = findByIdOrThrowNotFoundException(dto.getId());
 
-        if (!user.getEmail().equalsIgnoreCase(dto.getEmail())) {
-            repository.findByEmail(dto.getEmail()).ifPresent(item -> {
-                throw new BadRequestException("Email");
-            });
-        }
+        notExistsLoginOrThrowBadRequestException(user, dto);
 
-        if (!user.getLogin().equalsIgnoreCase(dto.getLogin())) {
-            repository.findByLogin(dto.getLogin()).ifPresent(item -> {
-                throw new BadRequestException("Login");
-            });
-        }
+        notExistsMailOrThrowBadRequestException(user, dto);
 
         mapper.mapToEntity(user, dto);
 
@@ -155,12 +127,64 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserFullDto delete(Long id) {
-        var user = repository.findById(id).orElseThrow(() ->
-                new NotFoundException(id.toString())
-        );
+        var user = findByIdOrThrowNotFoundException(id);
 
         repository.delete(user);
 
         return mapper.mapToDto(user);
+    }
+
+    private UserEntity findByIdOrThrowNotFoundException(Long id) {
+        return repository.findById(id).orElseThrow(() ->
+                ThrowableUtils.getNotFoundException("User with id `%d` is not found", id)
+        );
+    }
+
+    private void notExistsLoginOrThrowBadRequestException(UserEntity user, UserUpdateDto dto) {
+        if (!user.getLogin().equalsIgnoreCase(dto.getLogin())) {
+            repository.findByLogin(dto.getLogin()).ifPresent(item -> {
+                throw ThrowableUtils.getBadRequestException("Login `%s` exists");
+            });
+        }
+    }
+
+    private void notExistsMailOrThrowBadRequestException(UserEntity user, UserUpdateDto dto) {
+        if (!user.getEmail().equalsIgnoreCase(dto.getEmail())) {
+            repository.findByEmail(dto.getEmail()).ifPresent(item -> {
+                throw ThrowableUtils.getBadRequestException("Email `%s` exists");
+            });
+        }
+    }
+
+    private UserEntity findByUsername(String username) {
+        final var patternMail = "^[a-zA-Z0-9._]+@[a-zA-Z]+\\.[a-zA-Z]{2,3}$";
+        UserEntity user;
+        var pattern = Pattern.compile(patternMail);
+        var matcher = pattern.matcher(username);
+        if (matcher.find()) {
+            user = repository.findByEmail(username).orElseThrow(() ->
+                    ThrowableUtils.getBadRequestException(AUTHORIZATION_EXCEPTION)
+            );
+        } else {
+            user = repository.findByLogin(username).orElseThrow(() ->
+                    ThrowableUtils.getBadRequestException(AUTHORIZATION_EXCEPTION)
+            );
+        }
+
+        return user;
+    }
+
+    private void savePermissions(UserEntity user, Set<String> scopes) {
+        Set<PermissionEntity> scopeSet = new HashSet<>();
+
+        for (String scopeString : scopes) {
+            var scope = Scope.valueOf(scopeString);
+            var permission = new PermissionEntity();
+            permission.setScope(scope);
+            permission.setUser(user);
+            scopeSet.add(permission);
+        }
+
+        permissionRepository.saveAll(scopeSet);
     }
 }

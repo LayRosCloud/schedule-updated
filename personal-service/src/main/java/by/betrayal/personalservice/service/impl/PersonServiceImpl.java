@@ -32,6 +32,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional
     public PersonFullDto findById(Long id) {
         var item = repository.findById(id).orElseThrow(() ->
                 new NotFoundException()
@@ -60,6 +61,4 @@ public class PersonServiceImpl implements PersonService {
             throw new RuntimeException(ex);
         }
     }
-
-
 }

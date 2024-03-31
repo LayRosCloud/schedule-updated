@@ -11,7 +11,6 @@ import java.util.List;
 public interface TokenService {
     JwtFullDto generateTokens(UserEntity user);
     JwtFullDto refresh(String token);
-    Long extractId(String token);
     boolean expiredToken(String token);
     void delete(String token);
 }

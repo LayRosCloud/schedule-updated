@@ -16,6 +16,12 @@ public class ExceptionProvider {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler({NotAuthorizationException.class})
+    public ResponseEntity<String> handleException(NotAuthorizationException ex) {
+        log.error(ex.getMessage(), ex);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
     @ExceptionHandler({NotFoundException.class})
     public ResponseEntity<String> handleException(NotFoundException ex) {
         log.error(ex.getMessage(), ex);

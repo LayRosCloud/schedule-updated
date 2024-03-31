@@ -1,6 +1,5 @@
 package by.betrayal.accountservice.controller;
 
-import by.betrayal.accountservice.dto.token.JwtAccessDto;
 import by.betrayal.accountservice.dto.token.JwtFullDto;
 import by.betrayal.accountservice.dto.token.RefreshAccessTokenDto;
 import by.betrayal.accountservice.dto.user.UserCreateDto;
