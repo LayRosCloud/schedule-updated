@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 @Slf4j
-public class Provider {
+public class ExceptionProvider {
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<String> handleException(Exception ex) {

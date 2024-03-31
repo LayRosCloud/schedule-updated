@@ -6,7 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
-public class PersonCreateDto {
+public class PersonUpdateDto {
+
+    private Long id;
 
     private String lastName;
 

@@ -20,6 +20,9 @@ public class PersonEntity {
     @Column(name = "patronymic", nullable = true)
     private String patronymic;
 
+    @Column(name = "institution_id", nullable = false)
+    private Long institutionId;
+
     @Column(name = "photo", nullable = true)
     private String photo;
 
