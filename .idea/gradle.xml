@@ -45,6 +45,14 @@
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/audience-service" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/audience-service" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/personal-service" />
         <option name="modules">
           <set>

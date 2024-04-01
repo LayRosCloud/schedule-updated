@@ -1,0 +1,11 @@
+services:
+  audience-service:
+    image: 'mysql:8.0'
+    container_name: 'audience_host'
+    environment:
+      - 'MYSQL_DATABASE=${AUDIENCE_DB_SCHEMA}'
+      - 'MYSQL_PASSWORD=${AUDIENCE_DB_PWD}'
+      - 'MYSQL_ROOT_PASSWORD=${AUDIENCE_DB_PWD}'
+      - 'MYSQL_USER=${AUDIENCE_DB_USERNAME}'
+    ports:
+      - '${AUDIENCE_DB_PORT}:3306'

@@ -11,17 +11,20 @@ import java.util.Set;
 public class UserCreateDto {
 
     @Size(min = 4, max = 30)
+    @NotBlank(message = "login is blank")
     private String login;
 
     @Email
+    @NotBlank(message = "email is blank")
     private String email;
 
-    @NotBlank
+    @Size(min = 4, max = 30)
+    @NotBlank(message = "password is blank")
     private String password;
 
     @NotEmpty
     private Set<String> scopes;
 
-    @Digits(message = "PersonId was not a number", integer = Integer.MAX_VALUE, fraction = 0)
+    @Min(value = 1, message = "personId less 1")
     private Long personId;
 }

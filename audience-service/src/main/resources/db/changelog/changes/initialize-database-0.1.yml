@@ -1,0 +1,126 @@
+databaseChangeLog:
+  - changeSet:
+      id: initialize
+      author: betrayal
+      changes:
+        - createTable:
+            tableName: institutions
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: housings
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: address
+                  type: VARCHAR(200)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: institution_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_housing_institutions
+                    references: institutions(id)
+        - createTable:
+            tableName: audiences_types
+            columns:
+              - column:
+                  name: id
+                  type: SMALLINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(30)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: audiences
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: corpus_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_corpus_audiences
+                    references: housing(id)
+              - column:
+                  name: type_id
+                  type: SMALLINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_audiences_types
+                    references: audiences_types(id)
+        - createTable:
+            tableName: events
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: value
+                  type: VARCHAR(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: audience_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_events_audiences
+                    references: audiences(id)
+              - column:
+                  name: date_start
+                  type: DATETIME
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_end
+                  type: DATETIME
+                  constraints:
+                    nullable: false
+
+
+

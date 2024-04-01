@@ -7,8 +7,11 @@ import by.betrayal.accountservice.dto.user.UserFullDto;
 import by.betrayal.accountservice.dto.user.UserLoginDto;
 import by.betrayal.accountservice.dto.user.UserUpdateDto;
 import by.betrayal.accountservice.service.UserService;
+import by.betrayal.accountservice.utils.pageable.PageableOptions;
 import jakarta.validation.Valid;
+import jakarta.ws.rs.PathParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +26,12 @@ public class UserController {
     private final UserService service;
 
     @GetMapping
-    public ResponseEntity<List<UserFullDto>> findAll() {
-        var users = service.findAll();
+    public ResponseEntity<List<UserFullDto>> findAll(
+            @RequestParam(name = "_limit") Integer limit,
+            @RequestParam(name = "_page") Integer page
+    ) {
+        var options = new PageableOptions(limit, page - 1);
+        var users = service.findAll(options);
 
         return new ResponseEntity<>(users, HttpStatus.OK);
     }

@@ -7,12 +7,13 @@ import by.betrayal.accountservice.dto.user.UserCreateDto;
 import by.betrayal.accountservice.dto.user.UserFullDto;
 import by.betrayal.accountservice.dto.user.UserLoginDto;
 import by.betrayal.accountservice.dto.user.UserUpdateDto;
+import by.betrayal.accountservice.utils.pageable.PageableOptions;
 
 import java.util.List;
 
 public interface UserService {
 
-    List<UserFullDto> findAll();
+    List<UserFullDto> findAll(PageableOptions options);
     UserFullDto findById(Long id);
     UserFullDto create(UserCreateDto dto);
     JwtFullDto login(UserLoginDto dto);

@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: audience-service
+  jpa:
+    show-sql: true
+  datasource:
+    url: jdbc:mysql://${AUDIENCE_DB_HOST}:${AUDIENCE_DB_PORT}/${AUDIENCE_DB_SCHEMA}
+    username: ${AUDIENCE_DB_USERNAME}
+    password: ${AUDIENCE_DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  liquibase:
+    url: jdbc:mysql://${AUDIENCE_DB_HOST}:${AUDIENCE_DB_PORT}/${AUDIENCE_DB_SCHEMA}
+    change-log: classpath:db/changelog/master.yml
+    password: ${AUDIENCE_DB_PASSWORD}
+    user: ${AUDIENCE_DB_USERNAME}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  docker:
+    compose:
+      file: audience-service/compose.yaml

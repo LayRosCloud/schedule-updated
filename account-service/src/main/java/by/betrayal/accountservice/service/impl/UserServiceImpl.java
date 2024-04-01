@@ -18,8 +18,10 @@ import by.betrayal.accountservice.repository.UserRepository;
 import by.betrayal.accountservice.service.TokenService;
 import by.betrayal.accountservice.service.UserService;
 import by.betrayal.accountservice.utils.ThrowableUtils;
+import by.betrayal.accountservice.utils.pageable.PageableOptions;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -41,10 +43,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public List<UserFullDto> findAll() {
-        var users = repository.findAll();
+    public List<UserFullDto> findAll(PageableOptions options) {
+        var pageable = PageRequest.of(options.page(), options.limit());
 
-        return mapper.mapToListDto(users);
+        var users = repository.findAll(pageable);
+
+        return mapper.mapToListDto(users.toList());
     }
 
     @Override

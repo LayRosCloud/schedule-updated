@@ -9,9 +9,14 @@ import by.betrayal.personalservice.mapper.PersonMapper;
 import by.betrayal.personalservice.repository.PersonRepository;
 import by.betrayal.personalservice.service.PersonService;
 import by.betrayal.personalservice.utils.ThrowableUtils;
-import jakarta.transaction.Transactional;
+import by.betrayal.personalservice.utils.pageable.PageContainer;
+import by.betrayal.personalservice.utils.pageable.PageOptions;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -29,14 +34,24 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper mapper;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
+    public PageContainer<PersonFullDto> findAll(PageOptions options) {
+        var sort = Sort.by("lastName").ascending();
+        var pageable = PageRequest.of(options.page(), options.limit(), sort);
+        var peoplePage = repository.findAll(pageable);
+        var people = mapper.mapToFullDto(peoplePage.toList());
+        return new PageContainer<>(people, peoplePage.getTotalElements());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<PersonFullDto> findAll() {
         var list = repository.findAll();
         return mapper.mapToFullDto(list);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public PersonFullDto findById(Long id) {
         var item = findByIdOrThrowNotFoundException(id);
         return mapper.mapToFullDto(item);

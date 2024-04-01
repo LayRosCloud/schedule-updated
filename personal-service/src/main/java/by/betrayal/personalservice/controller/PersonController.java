@@ -4,6 +4,7 @@ import by.betrayal.personalservice.dto.person.PersonCreateDto;
 import by.betrayal.personalservice.dto.person.PersonFullDto;
 import by.betrayal.personalservice.dto.person.PersonUpdateDto;
 import by.betrayal.personalservice.service.PersonService;
+import by.betrayal.personalservice.utils.pageable.PageOptions;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,21 @@ public class PersonController {
     private static final String ENDPOINT_ID = "{id}";
 
     @GetMapping
-    public ResponseEntity<List<PersonFullDto>> findAll() {
-        var list = service.findAll();
+    public ResponseEntity<List<PersonFullDto>> findAll(
+            @RequestParam(name = "_limit", required = false) Integer limit,
+            @RequestParam(name = "_page", required = false) Integer page
+    ) {
+        if (limit == null || page == null) {
+            var list = service.findAll();
 
-        return new ResponseEntity<>(list, HttpStatus.OK);
+            return new ResponseEntity<>(list, HttpStatus.OK);
+        }
+
+        var options = new PageOptions(limit, page - 1);
+        var container = service.findAll(options);
+        return ResponseEntity.ok()
+                .header("x-total-count", container.totalCount().toString())
+                .body(container.items());
     }
 
     @GetMapping(ENDPOINT_ID)
