@@ -17,7 +17,7 @@ import java.nio.file.Paths;
 @RequestMapping(path = "v1/images")
 public class ImageController {
 
-    public static final String PATHNAME = "personal-service/src/main/resources/static/";
+    public static final String PATHNAME = "src/main/resources/static/";
     private static final String ENDPOINT_IMAGE_NAME = "{imageName}";
 
     @GetMapping(ENDPOINT_IMAGE_NAME)

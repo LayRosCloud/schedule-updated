@@ -11,6 +11,7 @@ import by.betrayal.personalservice.service.PersonService;
 import by.betrayal.personalservice.utils.ThrowableUtils;
 import by.betrayal.personalservice.utils.pageable.PageContainer;
 import by.betrayal.personalservice.utils.pageable.PageOptions;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -62,7 +63,11 @@ public class PersonServiceImpl implements PersonService {
     public PersonFullDto create(PersonCreateDto dto) {
         try {
             var photo = dto.getPhoto();
-            var filename = upload(photo);
+            String filename = null;
+
+            if(photo != null) {
+                filename = upload(photo);
+            }
 
             var entity = mapper.mapToEntity(dto);
             entity.setPhoto(filename);
@@ -78,19 +83,13 @@ public class PersonServiceImpl implements PersonService {
     @Override
     @Transactional
     public PersonFullDto update(PersonUpdateDto dto) {
-        try {
-            var person = findByIdOrThrowNotFoundException(dto.getId());
-            var photo = upload(dto.getPhoto());
-            mapper.mapToEntity(person, dto);
+        var person = findByIdOrThrowNotFoundException(dto.getId());
 
-            person.setPhoto(photo);
+        mapper.mapToEntity(person, dto);
 
-            var result = repository.save(person);
+        var result = repository.save(person);
 
-            return mapper.mapToFullDto(result);
-        } catch (IOException ex) {
-            throw ThrowableUtils.getBadRequestException();
-        }
+        return mapper.mapToFullDto(result);
     }
 
     @Override

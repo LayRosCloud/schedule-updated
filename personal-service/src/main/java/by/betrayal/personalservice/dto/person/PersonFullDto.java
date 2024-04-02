@@ -15,5 +15,7 @@ public class PersonFullDto {
 
     private String patronymic;
 
+    private Long institutionId;
+
     private String photo;
 }

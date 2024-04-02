@@ -5,6 +5,7 @@ import by.betrayal.personalservice.dto.person.PersonFullDto;
 import by.betrayal.personalservice.dto.person.PersonUpdateDto;
 import by.betrayal.personalservice.service.PersonService;
 import by.betrayal.personalservice.utils.pageable.PageOptions;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,14 +47,14 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<PersonFullDto> create(@ModelAttribute PersonCreateDto dto) {
+    public ResponseEntity<PersonFullDto> create(@Valid @ModelAttribute PersonCreateDto dto) {
         var item = service.create(dto);
 
-        return new ResponseEntity<>(item, HttpStatus.OK);
+        return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<PersonFullDto> update(@ModelAttribute PersonUpdateDto dto) {
+    public ResponseEntity<PersonFullDto> update(@Valid @ModelAttribute PersonUpdateDto dto) {
         var item = service.update(dto);
 
         return new ResponseEntity<>(item, HttpStatus.OK);
