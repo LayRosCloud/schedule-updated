@@ -81,7 +81,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     foreignKeyName: fk_corpus_audiences
-                    references: housing(id)
+                    references: housings(id)
               - column:
                   name: type_id
                   type: SMALLINT

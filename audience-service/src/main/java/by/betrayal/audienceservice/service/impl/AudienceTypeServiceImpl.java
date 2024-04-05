@@ -10,7 +10,6 @@ import by.betrayal.audienceservice.service.AudienceTypeService;
 import by.betrayal.audienceservice.utils.ThrowableUtils;
 import by.betrayal.audienceservice.utils.pagination.PageableOptions;
 import by.betrayal.audienceservice.utils.pagination.TotalPageable;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -52,7 +51,7 @@ public class AudienceTypeServiceImpl implements AudienceTypeService {
 
     @Override
     @Transactional
-    public AudienceTypeFullDto create(@Valid AudienceTypeCreateDto dto) {
+    public AudienceTypeFullDto create(AudienceTypeCreateDto dto) {
         var item = mapper.mapToEntity(dto);
 
         var type = repository.save(item);
@@ -62,8 +61,10 @@ public class AudienceTypeServiceImpl implements AudienceTypeService {
 
     @Override
     @Transactional
-    public AudienceTypeFullDto update(@Valid AudienceTypeUpdateDto dto) {
+    public AudienceTypeFullDto update(AudienceTypeUpdateDto dto) {
         var type = findByIdOrThrowNotFoundException(dto.getId());
+
+        mapper.mapToEntity(type, dto);
 
         var result = repository.save(type);
 

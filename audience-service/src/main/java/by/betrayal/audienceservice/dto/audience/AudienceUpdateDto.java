@@ -3,9 +3,11 @@ package by.betrayal.audienceservice.dto.audience;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class AudienceUpdateDto {
 
     @Min(value = 1, message = "id less 1")

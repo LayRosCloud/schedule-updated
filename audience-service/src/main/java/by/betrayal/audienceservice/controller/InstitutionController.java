@@ -6,6 +6,7 @@ import by.betrayal.audienceservice.dto.institution.InstitutionUpdateDto;
 import by.betrayal.audienceservice.service.InstitutionService;
 import by.betrayal.audienceservice.utils.pagination.PageableOptions;
 import by.betrayal.audienceservice.utils.pagination.Pagination;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,14 +47,14 @@ public class InstitutionController {
     }
 
     @PostMapping
-    public ResponseEntity<InstitutionFullDto> create(@RequestBody InstitutionCreateDto dto) {
+    public ResponseEntity<InstitutionFullDto> create(@Valid @RequestBody InstitutionCreateDto dto) {
         var institution = institutionService.create(dto);
 
         return new ResponseEntity<>(institution, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<InstitutionFullDto> update(@RequestBody InstitutionUpdateDto dto) {
+    public ResponseEntity<InstitutionFullDto> update(@Valid @RequestBody InstitutionUpdateDto dto) {
         var institution = institutionService.update(dto);
 
         return new ResponseEntity<>(institution, HttpStatus.OK);

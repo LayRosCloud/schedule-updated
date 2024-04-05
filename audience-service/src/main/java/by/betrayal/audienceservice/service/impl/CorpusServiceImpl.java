@@ -58,7 +58,7 @@ public class CorpusServiceImpl implements CorpusService {
 
     @Override
     @Transactional
-    public CorpusFullDto create(@Valid CorpusCreateDto dto) {
+    public CorpusFullDto create(CorpusCreateDto dto) {
         var institution = findByIdInstitutionOrThrowNotFoundException(dto.getInstitutionId());
         var corpus = mapper.mapToEntity(dto);
         corpus.setInstitution(institution);
@@ -70,7 +70,7 @@ public class CorpusServiceImpl implements CorpusService {
 
     @Override
     @Transactional
-    public CorpusFullDto update(@Valid CorpusUpdateDto dto) {
+    public CorpusFullDto update(CorpusUpdateDto dto) {
         var corpus = findByIdCorpusOrThrowNotFoundException(dto.getId());
         var institution = findByIdInstitutionOrThrowNotFoundException(dto.getInstitutionId());
         mapper.mapToEntity(corpus, dto);

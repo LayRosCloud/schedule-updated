@@ -9,18 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PersonEquals {
 
-    public static void equalsEntity(PersonEntity first, PersonEntity second) {
-        assertNotNull(first);
-        assertNotNull(second);
-
-        assertEquals(first.getId(), second.getId());
-        assertEquals(first.getFirstName(), second.getFirstName());
-        assertEquals(first.getLastName(), second.getLastName());
-        assertEquals(first.getPatronymic(), second.getPatronymic());
-        assertEquals(first.getPhoto(), second.getPhoto());
-        assertEquals(first.getInstitutionId(), second.getInstitutionId());
-    }
-
     public static void equalsEntityAndDto(PersonEntity item, PersonFullDto dto) {
         assertNotNull(item);
         assertNotNull(dto);

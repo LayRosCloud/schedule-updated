@@ -6,6 +6,7 @@ import by.betrayal.audienceservice.dto.event.EventUpdateDto;
 import by.betrayal.audienceservice.service.EventService;
 import by.betrayal.audienceservice.utils.pagination.PageableOptions;
 import by.betrayal.audienceservice.utils.pagination.Pagination;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,14 +51,14 @@ public class EventController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<EventFullDto> create(@RequestBody EventCreateDto dto) {
+    public ResponseEntity<EventFullDto> create(@Valid @RequestBody EventCreateDto dto) {
         var item = eventService.create(dto);
 
         return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<EventFullDto> update(@RequestBody EventUpdateDto dto) {
+    public ResponseEntity<EventFullDto> update(@Valid @RequestBody EventUpdateDto dto) {
         var item = eventService.update(dto);
 
         return new ResponseEntity<>(item, HttpStatus.OK);

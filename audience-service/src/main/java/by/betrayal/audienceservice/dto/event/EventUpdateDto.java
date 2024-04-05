@@ -1,9 +1,7 @@
 package by.betrayal.audienceservice.dto.event;
 
-import by.betrayal.audienceservice.utils.validation.MinDate;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
@@ -21,14 +19,10 @@ public class EventUpdateDto {
     private Long audienceId;
 
     @NotBlank
-    @Size(min = 1, max = 2, message = "")
+    @Size(min = 1, max = 50, message = "")
     private String value;
 
-    @MinDate(message = "date less current date")
-    @NotEmpty
     private Date dateStart;
 
-    @MinDate(message = "date less current date")
-    @NotEmpty
     private Date dateEnd;
 }

@@ -63,7 +63,7 @@ public class AudienceServiceImpl implements AudienceService {
 
     @Override
     @Transactional
-    public AudienceFullDto create(@Valid AudienceCreateDto dto) {
+    public AudienceFullDto create(AudienceCreateDto dto) {
         var corpus = findCorpusOrThrowNotFoundException(dto.getCorpusId());
         var type = findAudienceTypeOrThrowNotFoundException(dto.getTypeId());
 
@@ -78,7 +78,7 @@ public class AudienceServiceImpl implements AudienceService {
 
     @Override
     @Transactional
-    public AudienceFullDto update(@Valid AudienceUpdateDto dto) {
+    public AudienceFullDto update(AudienceUpdateDto dto) {
         var audience = findAudienceOrThrowNotFoundException(dto.getId());
         var type = findAudienceTypeOrThrowNotFoundException(dto.getTypeId());
         var corpus = findCorpusOrThrowNotFoundException(dto.getCorpusId());

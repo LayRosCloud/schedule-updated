@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class AudienceFullDto {
+    private Long id;
     private String name;
     private CorpusFullDto corpus;
     private AudienceTypeFullDto type;

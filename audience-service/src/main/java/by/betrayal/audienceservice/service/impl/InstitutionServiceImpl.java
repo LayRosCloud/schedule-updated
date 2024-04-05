@@ -10,7 +10,6 @@ import by.betrayal.audienceservice.service.InstitutionService;
 import by.betrayal.audienceservice.utils.ThrowableUtils;
 import by.betrayal.audienceservice.utils.pagination.PageableOptions;
 import by.betrayal.audienceservice.utils.pagination.TotalPageable;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -54,7 +53,7 @@ public class InstitutionServiceImpl implements InstitutionService {
 
     @Override
     @Transactional
-    public InstitutionFullDto create(@Valid InstitutionCreateDto dto) {
+    public InstitutionFullDto create(InstitutionCreateDto dto) {
         var item = mapper.mapToEntity(dto);
 
         var institution = institutionRepository.save(item);
@@ -63,8 +62,7 @@ public class InstitutionServiceImpl implements InstitutionService {
     }
 
     @Override
-    @Transactional
-    public InstitutionFullDto update(@Valid InstitutionUpdateDto dto) {
+    public InstitutionFullDto update(InstitutionUpdateDto dto) {
         var institution = findByIdOrThrowNotFoundException(dto.getId());
 
         mapper.mapToEntity(institution, dto);

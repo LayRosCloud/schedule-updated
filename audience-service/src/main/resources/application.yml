@@ -1,3 +1,4 @@
+
 spring:
   application:
     name: audience-service
@@ -17,3 +18,5 @@ spring:
   docker:
     compose:
       file: audience-service/compose.yaml
+server:
+  port: 3213

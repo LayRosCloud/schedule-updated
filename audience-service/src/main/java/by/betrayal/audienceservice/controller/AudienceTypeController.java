@@ -6,6 +6,7 @@ import by.betrayal.audienceservice.dto.audiencetype.AudienceTypeUpdateDto;
 import by.betrayal.audienceservice.service.AudienceTypeService;
 import by.betrayal.audienceservice.utils.pagination.PageableOptions;
 import by.betrayal.audienceservice.utils.pagination.Pagination;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,14 +47,14 @@ public class AudienceTypeController {
     }
 
     @PostMapping
-    public ResponseEntity<AudienceTypeFullDto> create(@RequestBody AudienceTypeCreateDto dto) {
+    public ResponseEntity<AudienceTypeFullDto> create(@Valid @RequestBody AudienceTypeCreateDto dto) {
         var institution = typeService.create(dto);
 
         return new ResponseEntity<>(institution, HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<AudienceTypeFullDto> update(@RequestBody AudienceTypeUpdateDto dto) {
+    public ResponseEntity<AudienceTypeFullDto> update(@Valid @RequestBody AudienceTypeUpdateDto dto) {
         var institution = typeService.update(dto);
 
         return new ResponseEntity<>(institution, HttpStatus.OK);

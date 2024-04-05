@@ -12,7 +12,6 @@ import by.betrayal.audienceservice.service.EventService;
 import by.betrayal.audienceservice.utils.ThrowableUtils;
 import by.betrayal.audienceservice.utils.pagination.PageableOptions;
 import by.betrayal.audienceservice.utils.pagination.TotalPageable;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -58,7 +57,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public EventFullDto create(@Valid EventCreateDto dto) {
+    public EventFullDto create(EventCreateDto dto) {
         var audience = findByIdAudienceOrThrowNotFoundException(dto.getAudienceId());
         var event = mapper.mapToEntity(dto);
         event.setAudience(audience);
@@ -70,7 +69,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public EventFullDto update(@Valid EventUpdateDto dto) {
+    public EventFullDto update(EventUpdateDto dto) {
         var event = findByIdEventOrThrowNotFoundException(dto.getId());
         var audience = findByIdAudienceOrThrowNotFoundException(dto.getAudienceId());
 

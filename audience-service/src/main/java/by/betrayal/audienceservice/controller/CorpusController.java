@@ -6,6 +6,7 @@ import by.betrayal.audienceservice.dto.corpus.CorpusUpdateDto;
 import by.betrayal.audienceservice.service.CorpusService;
 import by.betrayal.audienceservice.utils.pagination.PageableOptions;
 import by.betrayal.audienceservice.utils.pagination.Pagination;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,13 +50,13 @@ public class CorpusController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<CorpusFullDto> create(@RequestBody CorpusCreateDto dto) {
+    public ResponseEntity<CorpusFullDto> create(@Valid @RequestBody CorpusCreateDto dto) {
         var corpus = service.create(dto);
         return new ResponseEntity<>(corpus, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<CorpusFullDto> update(@RequestBody CorpusUpdateDto dto) {
+    public ResponseEntity<CorpusFullDto> update(@Valid @RequestBody CorpusUpdateDto dto) {
         var corpus = service.update(dto);
         return new ResponseEntity<>(corpus, HttpStatus.OK);
     }
