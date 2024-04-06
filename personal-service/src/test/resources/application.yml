@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:tc:mysql:8.0:///fake_db
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/master.yml
+  jpa:
+    show-sql: true
+eureka:
+  client:
+    enabled: false

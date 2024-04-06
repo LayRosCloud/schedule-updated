@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: personal-service
+  jpa:
+    show-sql: true
+  datasource:
+    username: ${PEOPLE_DB_USERNAME}
+    password: ${PEOPLE_DB_PWD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${PEOPLE_DB_HOST}:${PEOPLE_DB_PORT}/${PEOPLE_DB_SCHEMA}
+  liquibase:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    change-log: classpath:db/changelog/master.yml
+    user: ${PEOPLE_DB_USERNAME}
+    password: ${PEOPLE_DB_PWD}
+    url: jdbc:mysql://${PEOPLE_DB_HOST}:${PEOPLE_DB_PORT}/${PEOPLE_DB_SCHEMA}
+  docker:
+    compose:
+      file: personal-service/compose.yaml
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka

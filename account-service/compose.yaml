@@ -1,0 +1,15 @@
+version: "3.5"
+volumes:
+  accounts_base:
+services:
+  account-service:
+    image: 'postgres:16.2'
+    container_name: accounts_database
+    environment:
+      - POSTGRES_DB=${ACCOUNT_DB_SCHEMA}
+      - POSTGRES_PASSWORD=${ACCOUNT_DB_PWD}
+      - POSTGRES_USER=${ACCOUNT_DB_USERNAME}
+    ports:
+      - '${ACCOUNT_DB_PORT}:5432'
+    volumes:
+      - accounts_base:/var/lib/postgresql

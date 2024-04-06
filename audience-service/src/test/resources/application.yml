@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    url: jdbc:tc:mysql:///fake_db
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/master.yml
+  jpa:
+    show-sql: true
