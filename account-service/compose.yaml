@@ -1,11 +1,15 @@
+version: "3.5"
+volumes:
+  accounts_base:
 services:
   account-service:
-    image: 'mysql:8.0'
-    container_name: account_database
+    image: 'postgres:16.2'
+    container_name: accounts_database
     environment:
-      - 'MYSQL_DATABASE=mydatabase'
-      - 'MYSQL_PASSWORD=secret'
-      - 'MYSQL_ROOT_PASSWORD=verysecret'
-      - 'MYSQL_USER=myuser'
+      - POSTGRES_DB=${ACCOUNT_DB_SCHEMA}
+      - POSTGRES_PASSWORD=${ACCOUNT_DB_PWD}
+      - POSTGRES_USER=${ACCOUNT_DB_USERNAME}
     ports:
-      - '3306:3306'
+      - '${ACCOUNT_DB_PORT}:5432'
+    volumes:
+      - accounts_base:/var/lib/postgresql
