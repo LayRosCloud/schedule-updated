@@ -22,7 +22,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
 jwt:
-  refresh-secret: 9UWqDQOYCf0Pe9wtevcZ1AXRBzwpnZN75VySsTmRnrLqz
-  access-secret: M7Qrp6obpGKnWlbIDA3aVY9oszOCrjAZyAi9PzEFOaUtS
+  refresh-secret: ${REFRESH_SECRET:9UWqDQOYCf0Pe9wtevcZ1AXRBzwpnZN75VySsTmRnrLqz}
+  access-secret: ${ACCESS_SECRET:M7Qrp6obpGKnWlbIDA3aVY9oszOCrjAZyAi9PzEFOaUtS}
