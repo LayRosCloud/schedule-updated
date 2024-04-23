@@ -7,9 +7,9 @@ import by.betrayal.scheduleservice.entity.SubjectEntity;
 import by.betrayal.scheduleservice.mapper.SubjectMapper;
 import by.betrayal.scheduleservice.repository.SubjectRepository;
 import by.betrayal.scheduleservice.service.SubjectService;
-import by.betrayal.scheduleservice.utils.PageableContainer;
-import by.betrayal.scheduleservice.utils.PageableFactory;
-import by.betrayal.scheduleservice.utils.PageableOptions;
+import by.betrayal.scheduleservice.utils.pageable.PageableContainer;
+import by.betrayal.scheduleservice.utils.pageable.PageableFactory;
+import by.betrayal.scheduleservice.utils.pageable.PageableOptions;
 import by.betrayal.scheduleservice.utils.ThrowableUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +23,7 @@ public class SubjectServiceImpl implements SubjectService {
     private final SubjectMapper mapper;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public PageableContainer<SubjectFullDto> findAllByInstitutionId(Long institutionId, PageableOptions options) {
         var pageable = PageableFactory.createPageable(options);
 
@@ -35,7 +35,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public SubjectFullDto findById(Long id) {
         var item = findSubjectByIdOrThrowNotFoundException(id);
         return mapper.mapToDto(item);
@@ -54,13 +54,23 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional
     public SubjectFullDto update(UpdateSubjectDto dto) {
-        return null;
+        var item = findSubjectByIdOrThrowNotFoundException(dto.getId());
+
+        mapper.mapToEntity(item, dto);
+
+        var result = repository.save(item);
+
+        return mapper.mapToDto(result);
     }
 
     @Override
     @Transactional
     public SubjectFullDto delete(Long id) {
-        return null;
+        var item = findSubjectByIdOrThrowNotFoundException(id);
+
+        repository.delete(item);
+
+        return mapper.mapToDto(item);
     }
 
     private SubjectEntity findSubjectByIdOrThrowNotFoundException(Long id) {

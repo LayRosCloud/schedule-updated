@@ -1,11 +1,18 @@
-package by.betrayal.scheduleservice.utils;
+package by.betrayal.scheduleservice.utils.pageable;
 
+import by.betrayal.scheduleservice.utils.ThrowableUtils;
 import lombok.Getter;
 
 @Getter
 public class PageableOptions {
+
     private Integer limit;
     private Integer page;
+
+    public PageableOptions(Integer limit, Integer page) {
+        this.limit = limit;
+        this.page = page;
+    }
 
     public Integer getOneLessPage() {
         return page - 1;

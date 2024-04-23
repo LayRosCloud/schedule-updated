@@ -11,4 +11,5 @@ import java.util.List;
 public interface SubgroupRepository extends JpaRepository<SubgroupEntity, Long> {
     List<SubgroupEntity> findAllByIdIn(Collection<Long> id);
     Page<SubgroupEntity> findAllByGroupId(Long groupId, Pageable pageable);
+    List<SubgroupEntity> findAllByGroupId(Long groupId);
 }

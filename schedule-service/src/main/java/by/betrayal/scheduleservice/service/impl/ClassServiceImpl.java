@@ -28,24 +28,28 @@ public class ClassServiceImpl implements ClassService {
     private final ClassMapper mapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<ClassFullDto> findAllByAudienceId(Long audienceId, Date start, Date end) {
         var list = classRepository.findAllByAudienceId(audienceId, start, end);
         return mapper.mapToDto(list);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ClassFullDto> findAllByTeacherId(Long teacherId, Date start, Date end) {
         var list = classRepository.findAllByTeacherId(teacherId, start, end);
         return mapper.mapToDto(list);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ClassFullDto> findAllBySubgroupId(Long subgroupId, Date start, Date end) {
         var list = classRepository.findAllBySubgroupId(subgroupId, start, end);
         return mapper.mapToDto(list);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ClassFullDto findById(Long id) {
         var item = findByIdOrThrowNotFoundException(id);
         return mapper.mapToDto(item);

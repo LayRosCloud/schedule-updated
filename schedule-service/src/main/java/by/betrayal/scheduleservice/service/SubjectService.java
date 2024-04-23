@@ -3,8 +3,8 @@ package by.betrayal.scheduleservice.service;
 import by.betrayal.scheduleservice.dto.subject.CreateSubjectDto;
 import by.betrayal.scheduleservice.dto.subject.SubjectFullDto;
 import by.betrayal.scheduleservice.dto.subject.UpdateSubjectDto;
-import by.betrayal.scheduleservice.utils.PageableContainer;
-import by.betrayal.scheduleservice.utils.PageableOptions;
+import by.betrayal.scheduleservice.utils.pageable.PageableContainer;
+import by.betrayal.scheduleservice.utils.pageable.PageableOptions;
 
 public interface SubjectService {
 

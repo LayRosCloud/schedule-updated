@@ -1,4 +1,4 @@
-package by.betrayal.scheduleservice.utils;
+package by.betrayal.scheduleservice.utils.pageable;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
