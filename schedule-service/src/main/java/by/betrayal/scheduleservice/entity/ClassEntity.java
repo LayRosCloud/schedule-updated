@@ -37,7 +37,7 @@ public class ClassEntity {
 
     @ManyToOne
     @JoinColumn(name = "type_id", nullable = false)
-    private ClassTypeEntity type;
+    private TypeClassEntity type;
 
 
 }

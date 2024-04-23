@@ -19,4 +19,7 @@ public class TimeEntity {
 
     @Column(name = "time_end", nullable = false)
     private Time timeEnd;
+
+    @Column(name = "institution_id", nullable = false)
+    private Long institutionId;
 }

@@ -68,6 +68,11 @@ databaseChangeLog:
                   type: VARCHAR(40)
                   constraints:
                     nullable: true
+              - column:
+                  name: institution_id
+                  type: BIGINT
+                  constraints:
+                    nullable: true
         - createTable:
             tableName: teachers_subjects
             columns:
@@ -106,6 +111,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     primaryKey: true
+              - column:
+                  name: institution_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
         - createTable:
             tableName: classes
             columns:

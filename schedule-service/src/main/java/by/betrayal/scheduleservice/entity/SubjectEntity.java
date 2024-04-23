@@ -17,4 +17,7 @@ public class SubjectEntity {
 
     @Column(name = "long_name", nullable = true)
     private String longName;
+
+    @Column(name = "institution_id", nullable = false)
+    private Long institutionId;
 }
