@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {RequestMapper.class})
 public interface ParticipantMapper {
 
     ParticipantFullDto mapToDto(ParticipantEntity participant);

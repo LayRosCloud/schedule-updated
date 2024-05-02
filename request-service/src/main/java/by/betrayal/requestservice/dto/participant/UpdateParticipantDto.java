@@ -9,5 +9,4 @@ public class UpdateParticipantDto {
 
     private Long id;
     private Long personId;
-    private Long requestId;
 }

@@ -8,7 +8,7 @@ public class ExceptionUtils {
         return getNotFoundException("Object is not found");
     }
 
-    public static NotFoundException getNotFoundIdException(String nameObject, Integer id) {
+    public static NotFoundException getNotFoundIdException(String nameObject, Number id) {
         return getNotFoundException("%s with id %s is not found", nameObject, id);
     }
 

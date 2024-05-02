@@ -1,7 +1,6 @@
 package by.betrayal.requestservice.repository;
 
 import by.betrayal.requestservice.entity.MessageEntity;
-import by.betrayal.requestservice.entity.ParticipantEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,5 +10,5 @@ public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
     @Query(value = "SELECT mes.id, mes.createdAt, mes.updatedAt, mes.text, mes.type, mes.participant " +
             "FROM MessageEntity mes " +
             "WHERE mes.participant.request.id = ?1 ", nativeQuery = false)
-    Page<ParticipantEntity> findAllByRequestId(Long requestId, Pageable pageable);
+    Page<MessageEntity> findAllByRequestId(Long requestId, Pageable pageable);
 }
