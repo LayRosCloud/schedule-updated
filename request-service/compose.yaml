@@ -1,0 +1,14 @@
+volumes:
+  request_base:
+services:
+  request-service-db:
+    image: 'mysql:8.0'
+    environment:
+      - 'MYSQL_DATABASE={REQUEST_DB_SCHEMA}'
+      - 'MYSQL_PASSWORD={REQUEST_DB_PWD}'
+      - 'MYSQL_ROOT_PASSWORD={REQUEST_DB_PWD}'
+      - 'MYSQL_USER={REQUEST_DB_USERNAME}'
+    ports:
+      - '{REQUEST_DB_PORT}:3306'
+    volumes:
+      - request_base:/var/lib/mysql
