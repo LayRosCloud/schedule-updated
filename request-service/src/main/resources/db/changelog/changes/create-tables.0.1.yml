@@ -66,6 +66,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: updated_at
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
                   name: type
                   type: VARCHAR(15)
                   constraints:
