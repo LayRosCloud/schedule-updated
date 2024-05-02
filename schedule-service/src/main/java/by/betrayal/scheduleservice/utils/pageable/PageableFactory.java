@@ -7,6 +7,6 @@ public abstract class PageableFactory {
 
     public static Pageable createPageable(PageableOptions options) {
         var sort = SortFactory.getSortIdAsc();
-        return PageRequest.of(options.getPage(), options.getLimit(), sort);
+        return PageRequest.of(options.getOneLessPage(), options.getLimit(), sort);
     }
 }
