@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface MessageRepository extends JpaRepository<MessageEntity, Long> {
     @Query(value = "SELECT mes.id, mes.createdAt, mes.updatedAt, mes.text, mes.type, mes.participant " +
             "FROM MessageEntity mes " +
-            "WHERE mes.participant.request.id = ?1 ", nativeQuery = false)
+            "WHERE mes.participant.request.id = ?1",
+            nativeQuery = false)
     Page<MessageEntity> findAllByRequestId(Long requestId, Pageable pageable);
 }

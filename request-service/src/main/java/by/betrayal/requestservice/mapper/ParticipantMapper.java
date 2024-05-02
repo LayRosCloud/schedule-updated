@@ -20,6 +20,6 @@ public interface ParticipantMapper {
     ParticipantEntity mapToEntity(CreateParticipantDto dto);
 
     default void mapToEntity(ParticipantEntity participant, UpdateParticipantDto dto) {
-        participant.setPersonId(dto.getPersonId());
+        participant.setIsHidden(dto.getIsHidden());
     }
 }

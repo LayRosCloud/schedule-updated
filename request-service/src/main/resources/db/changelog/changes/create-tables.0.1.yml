@@ -45,6 +45,16 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_participants_requests
                     references: requests(id)
+              - column:
+                  name: deleted_at
+                  type: BIGINT
+                  constraints:
+                    nullable: true
+              - column:
+                  name: is_hidden
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
         - createTable:
             tableName: messages
             columns:

@@ -8,5 +8,5 @@ import lombok.Data;
 public class UpdateParticipantDto {
 
     private Long id;
-    private Long personId;
+    private Boolean isHidden;
 }

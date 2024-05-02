@@ -12,5 +12,6 @@ public interface ParticipantService {
     PageableContainer<ParticipantFullDto> findAllByPersonId(Long personId, PageableOptions options);
     ParticipantFullDto findById(Long id);
     ParticipantFullDto create(CreateParticipantDto dto);
+    ParticipantFullDto update(UpdateParticipantDto dto);
     ParticipantFullDto delete(Long id);
 }

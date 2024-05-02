@@ -35,6 +35,7 @@ public class MessageServiceImpl implements MessageService {
     @Transactional(readOnly = true)
     public PageableContainer<MessagePreviewDto> findAllByRequestId(Long requestId, PageableOptions options) {
         var pageable = PageableFactory.createPageableDesc(options);
+        //TODO: SQL query on delete person messages
         var messagePage = messageRepository.findAllByRequestId(requestId, pageable);
         var messages = mapper.mapToDto(messagePage.getContent());
         return new PageableContainer<>(messagePage.getTotalElements(), messages);

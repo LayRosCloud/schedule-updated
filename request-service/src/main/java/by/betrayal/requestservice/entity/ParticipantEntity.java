@@ -18,4 +18,10 @@ public class ParticipantEntity {
     @ManyToOne
     @JoinColumn(name = "request_id", nullable = false)
     private RequestEntity request;
+
+    @Column(name = "deleted_at", nullable = true)
+    private Long deletedAt;
+
+    @Column(name = "is_hidden", nullable = false)
+    private Boolean isHidden;
 }

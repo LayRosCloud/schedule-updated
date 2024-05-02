@@ -2,6 +2,7 @@ package by.betrayal.requestservice.service.impl;
 
 import by.betrayal.requestservice.dto.participant.CreateParticipantDto;
 import by.betrayal.requestservice.dto.participant.ParticipantFullDto;
+import by.betrayal.requestservice.dto.participant.UpdateParticipantDto;
 import by.betrayal.requestservice.entity.MessageEntity;
 import by.betrayal.requestservice.entity.ParticipantEntity;
 import by.betrayal.requestservice.entity.RequestEntity;
@@ -33,7 +34,7 @@ public class ParticipantServiceImpl implements ParticipantService {
     @Transactional(readOnly = true)
     public PageableContainer<ParticipantFullDto> findAllByPersonId(Long personId, PageableOptions options) {
         var pageable = PageableFactory.createPageableAsc(options);
-        var participantPage = participantRepository.findAllByPersonId(personId, pageable);
+        var participantPage = participantRepository.findAllByPersonIdAndIsHiddenNot(personId, pageable);
         var participants = mapper.mapToDto(participantPage.getContent());
         return new PageableContainer<>(participantPage.getTotalElements(), participants);
     }
@@ -53,8 +54,8 @@ public class ParticipantServiceImpl implements ParticipantService {
         participant.setRequest(request);
         var result = participantRepository.save(participant);
 
-        var message = new MessageEntity();
         //TODO: make ACID request to service people and get current user
+        var message = new MessageEntity();
         message.setText(String.format("`%s` пригласил `%s`", "Иванов Иван", dto.getPersonId()));
         message.setCreatedAt(DateUtils.getTicksFromUtcZone());
         message.setUpdatedAt(DateUtils.getTicksFromUtcZone());
@@ -68,10 +69,22 @@ public class ParticipantServiceImpl implements ParticipantService {
 
     @Override
     @Transactional
+    public ParticipantFullDto update(UpdateParticipantDto dto) {
+        var participant = findByIdParticipantOrThrowNotFoundException(dto.getId());
+
+        mapper.mapToEntity(participant, dto);
+        var result = participantRepository.save(participant);
+
+        return mapper.mapToDto(result);
+    }
+
+    @Override
+    @Transactional
     public ParticipantFullDto delete(Long id) {
         var participant = findByIdParticipantOrThrowNotFoundException(id);
-        participantRepository.delete(participant);
-        return mapper.mapToDto(participant);
+        participant.setDeletedAt(DateUtils.getTicksFromUtcZone());
+        var result = participantRepository.save(participant);
+        return mapper.mapToDto(result);
     }
 
     private ParticipantEntity findByIdParticipantOrThrowNotFoundException(Long id) {
