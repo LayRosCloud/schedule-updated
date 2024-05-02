@@ -9,5 +9,5 @@ public class UpdateRequestDto {
 
     private Long id;
     private String theme;
-    private Boolean approve;
+    private Boolean approved;
 }

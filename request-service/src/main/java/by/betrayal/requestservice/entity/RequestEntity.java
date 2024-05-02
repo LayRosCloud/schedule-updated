@@ -15,6 +15,6 @@ public class RequestEntity {
     @Column(name = "theme", nullable = false)
     private String theme;
 
-    @Column(name = "approve")
-    private Boolean approve;
+    @Column(name = "approved")
+    private Boolean approved;
 }
