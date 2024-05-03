@@ -1,0 +1,20 @@
+
+server:
+  port: 9001
+spring:
+  application:
+    name: group-service
+  datasource:
+    url: jdbc:mysql://${GROUP_DB_HOST}:${GROUP_DB_PORT}/${GROUP_DB_SCHEMA}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${GROUP_DB_USERNAME}
+    password: ${GROUP_DB_PWD}
+  jpa:
+    show-sql: true
+  liquibase:
+    enabled: true
+    url: jdbc:mysql://${GROUP_DB_HOST}:${GROUP_DB_PORT}/${GROUP_DB_SCHEMA}
+    user: ${GROUP_DB_USERNAME}
+    password: ${GROUP_DB_PWD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    change-log: classpath:db/changelog/master.yml

@@ -7,13 +7,13 @@ spring:
     name: request-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: {REQUEST_DB_USERNAME}
-    password: {REQUEST_DB_PWD}
-    url: jdbc:mysql://{REQUEST_DB_HOST}:{REQUEST_DB_PORT}/{REQUEST_DB_SCHEMA}
+    username: ${REQUEST_DB_USERNAME}
+    password: ${REQUEST_DB_PWD}
+    url: jdbc:mysql://${REQUEST_DB_HOST}:${REQUEST_DB_PORT}/${REQUEST_DB_SCHEMA}
   liquibase:
     change-log: classpath:db/changelog/master.yml
     enabled: true
     driver-class-name: com.mysql.cj.jdbc.Driver
-    user: {REQUEST_DB_USERNAME}
-    password: {REQUEST_DB_PWD}
-    url: jdbc:mysql://{REQUEST_DB_HOST}:{REQUEST_DB_PORT}/{REQUEST_DB_SCHEMA}
+    user: ${REQUEST_DB_USERNAME}
+    password: ${REQUEST_DB_PWD}
+    url: jdbc:mysql://${REQUEST_DB_HOST}:${REQUEST_DB_PORT}/${REQUEST_DB_SCHEMA}
