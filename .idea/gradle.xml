@@ -12,6 +12,11 @@
                   <project path="$PROJECT_DIR$/account-service" />
                 </projects>
               </build>
+              <build path="$PROJECT_DIR$/group-service" name="group-service">
+                <projects>
+                  <project path="$PROJECT_DIR$/group-service" />
+                </projects>
+              </build>
               <build path="$PROJECT_DIR$/personal-service" name="personal-service">
                 <projects>
                   <project path="$PROJECT_DIR$/personal-service" />
@@ -20,6 +25,11 @@
               <build path="$PROJECT_DIR$/registry-service" name="registry-service">
                 <projects>
                   <project path="$PROJECT_DIR$/registry-service" />
+                </projects>
+              </build>
+              <build path="$PROJECT_DIR$/request-service" name="request-service">
+                <projects>
+                  <project path="$PROJECT_DIR$/request-service" />
                 </projects>
               </build>
               <build path="$PROJECT_DIR$/schedule-service" name="schedule-service">
@@ -36,8 +46,10 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/account-service" />
+            <option value="$PROJECT_DIR$/group-service" />
             <option value="$PROJECT_DIR$/personal-service" />
             <option value="$PROJECT_DIR$/registry-service" />
+            <option value="$PROJECT_DIR$/request-service" />
             <option value="$PROJECT_DIR$/schedule-service" />
           </set>
         </option>
