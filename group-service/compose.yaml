@@ -4,11 +4,11 @@ services:
   group-service-db:
     image: 'mysql:8.0'
     environment:
-      - 'MYSQL_DATABASE={GROUP_DB_SCHEMA}'
-      - 'MYSQL_PASSWORD={GROUP_DB_PWD}'
-      - 'MYSQL_ROOT_PASSWORD={GROUP_DB_PWD}'
-      - 'MYSQL_USER={GROUP_DB_USERNAME}'
+      - 'MYSQL_DATABASE=${GROUP_DB_SCHEMA}'
+      - 'MYSQL_PASSWORD=${GROUP_DB_PWD}'
+      - 'MYSQL_ROOT_PASSWORD=${GROUP_DB_PWD}'
+      - 'MYSQL_USER=${GROUP_DB_USERNAME}'
     ports:
-      - '{GROUP_DB_PORT}:3306'
+      - '${GROUP_DB_PORT}:3306'
     volumes:
       - group_base:/var/lib/mysql
