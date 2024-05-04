@@ -1,0 +1,26 @@
+
+spring:
+  application:
+    name: schedule-service
+  datasource:
+    url: jdbc:mysql://${PAIR_DB_HOST}:${PAIR_DB_PORT}/${PAIR_DB_SCHEMA}
+    username: ${PAIR_DB_USERNAME}
+    password: ${PAIR_DB_PWD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  liquibase:
+    enabled: true
+    user: ${PAIR_DB_USERNAME}
+    password: ${PAIR_DB_PWD}
+    url: jdbc:mysql://${PAIR_DB_HOST}:${PAIR_DB_PORT}/${PAIR_DB_SCHEMA}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    change-log: classpath:db/changelog/master.yml
+  docker:
+    compose:
+      file: schedule-service/compose.yaml
+server:
+  port: 3456
+eureka:
+  client:
+    enabled: false
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}

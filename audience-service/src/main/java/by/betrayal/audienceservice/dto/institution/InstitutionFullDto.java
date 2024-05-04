@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class InstitutionFullDto {
+
     private Long id;
     private String name;
+    private Long deletedAt;
 }

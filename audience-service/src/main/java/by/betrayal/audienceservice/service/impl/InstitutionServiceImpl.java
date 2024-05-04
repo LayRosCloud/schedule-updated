@@ -7,6 +7,7 @@ import by.betrayal.audienceservice.entity.InstitutionEntity;
 import by.betrayal.audienceservice.mapper.InstitutionMapper;
 import by.betrayal.audienceservice.repository.InstitutionRepository;
 import by.betrayal.audienceservice.service.InstitutionService;
+import by.betrayal.audienceservice.utils.DateUtils;
 import by.betrayal.audienceservice.utils.ThrowableUtils;
 import by.betrayal.audienceservice.utils.pagination.PageableOptions;
 import by.betrayal.audienceservice.utils.pagination.TotalPageable;
@@ -77,9 +78,10 @@ public class InstitutionServiceImpl implements InstitutionService {
     public InstitutionFullDto delete(Long id) {
         var institution = findByIdOrThrowNotFoundException(id);
 
-        institutionRepository.delete(institution);
+        institution.setDeletedAt(institution.getDeletedAt() == null ? DateUtils.getUtcTicks() : null);
 
-        return mapper.mapToFullDto(institution);
+        var result = institutionRepository.save(institution);
+        return mapper.mapToFullDto(result);
     }
 
     private InstitutionEntity findByIdOrThrowNotFoundException(Long id) {

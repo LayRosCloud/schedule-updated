@@ -1,0 +1,14 @@
+volumes:
+  schedule_base:
+services:
+  schedule-service-db:
+    image: 'mysql:8.0'
+    environment:
+      - 'MYSQL_DATABASE=${PAIR_DB_SCHEMA}'
+      - 'MYSQL_PASSWORD=${PAIR_DB_PWD}'
+      - 'MYSQL_ROOT_PASSWORD=${PAIR_DB_PWD}'
+      - 'MYSQL_USER=${PAIR_DB_USERNAME}'
+    ports:
+      - '${PAIR_DB_PORT}:3306'
+    volumes:
+      - schedule_base:/var/lib/mysql
