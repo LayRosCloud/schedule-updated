@@ -6,6 +6,7 @@ import by.betrayal.scheduleservice.dto.time.UpdateTimeDto;
 import by.betrayal.scheduleservice.service.TimeService;
 import by.betrayal.scheduleservice.utils.pageable.PageableContainer;
 import by.betrayal.scheduleservice.utils.pageable.PageableOptions;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,13 +52,13 @@ public class TimeController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<TimeFullDto> create(@RequestBody CreateTimeDto dto) {
+    public ResponseEntity<TimeFullDto> create(@Valid @RequestBody CreateTimeDto dto) {
         var time = service.create(dto);
         return new ResponseEntity<>(time, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<TimeFullDto> update(@RequestBody UpdateTimeDto dto) {
+    public ResponseEntity<TimeFullDto> update(@Valid @RequestBody UpdateTimeDto dto) {
         var time = service.update(dto);
         return new ResponseEntity<>(time, HttpStatus.OK);
     }

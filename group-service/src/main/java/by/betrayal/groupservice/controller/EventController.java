@@ -6,6 +6,7 @@ import by.betrayal.groupservice.dto.course.UpdateCourseDto;
 import by.betrayal.groupservice.service.CourseService;
 import by.betrayal.groupservice.utils.pageable.PageableContainer;
 import by.betrayal.groupservice.utils.pageable.PageableOptions;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,13 +44,13 @@ public class EventController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<CourseFullDto> create(@RequestBody CreateCourseDto dto) {
+    public ResponseEntity<CourseFullDto> create(@Valid @RequestBody CreateCourseDto dto) {
         var group = service.create(dto);
         return new ResponseEntity<>(group, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<CourseFullDto> update(@RequestBody UpdateCourseDto dto) {
+    public ResponseEntity<CourseFullDto> update(@Valid @RequestBody UpdateCourseDto dto) {
         var group = service.update(dto);
         return new ResponseEntity<>(group, HttpStatus.OK);
     }

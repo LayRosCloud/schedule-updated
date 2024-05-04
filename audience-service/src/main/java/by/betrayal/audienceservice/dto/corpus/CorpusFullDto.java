@@ -5,8 +5,10 @@ import lombok.Data;
 
 @Data
 public class CorpusFullDto {
+
     private Long id;
     private String name;
     private String address;
     private InstitutionFullDto institution;
+    private Long deletedAt;
 }

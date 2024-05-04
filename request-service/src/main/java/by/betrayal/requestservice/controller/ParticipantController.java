@@ -6,6 +6,7 @@ import by.betrayal.requestservice.dto.participant.UpdateParticipantDto;
 import by.betrayal.requestservice.service.ParticipantService;
 import by.betrayal.requestservice.utils.pageable.PageableContainer;
 import by.betrayal.requestservice.utils.pageable.PageableOptions;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,13 +44,13 @@ public class ParticipantController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<ParticipantFullDto> create(@RequestBody CreateParticipantDto dto) {
+    public ResponseEntity<ParticipantFullDto> create(@Valid @RequestBody CreateParticipantDto dto) {
         var request = service.create(dto);
         return new ResponseEntity<>(request, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<ParticipantFullDto> update(@RequestBody UpdateParticipantDto dto) {
+    public ResponseEntity<ParticipantFullDto> update(@Valid @RequestBody UpdateParticipantDto dto) {
         var request = service.update(dto);
         return new ResponseEntity<>(request, HttpStatus.OK);
     }

@@ -4,6 +4,7 @@ import by.betrayal.requestservice.dto.request.CreateRequestDto;
 import by.betrayal.requestservice.dto.request.RequestFullDto;
 import by.betrayal.requestservice.dto.request.UpdateRequestDto;
 import by.betrayal.requestservice.service.RequestService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +24,13 @@ public class RequestController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<RequestFullDto> create(@RequestBody CreateRequestDto dto) {
+    public ResponseEntity<RequestFullDto> create(@Valid @RequestBody CreateRequestDto dto) {
         var request = service.create(dto);
         return new ResponseEntity<>(request, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<RequestFullDto> update(@RequestBody UpdateRequestDto dto) {
+    public ResponseEntity<RequestFullDto> update(@Valid @RequestBody UpdateRequestDto dto) {
         var request = service.update(dto);
         return new ResponseEntity<>(request, HttpStatus.OK);
     }

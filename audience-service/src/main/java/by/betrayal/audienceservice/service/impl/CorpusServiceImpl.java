@@ -9,10 +9,10 @@ import by.betrayal.audienceservice.mapper.CorpusMapper;
 import by.betrayal.audienceservice.repository.CorpusRepository;
 import by.betrayal.audienceservice.repository.InstitutionRepository;
 import by.betrayal.audienceservice.service.CorpusService;
+import by.betrayal.audienceservice.utils.DateUtils;
 import by.betrayal.audienceservice.utils.ThrowableUtils;
 import by.betrayal.audienceservice.utils.pagination.PageableOptions;
 import by.betrayal.audienceservice.utils.pagination.TotalPageable;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -85,10 +85,10 @@ public class CorpusServiceImpl implements CorpusService {
     @Transactional
     public CorpusFullDto delete(Long id) {
         var corpus = findByIdCorpusOrThrowNotFoundException(id);
+        corpus.setDeletedAt(corpus.getDeletedAt() == null ? DateUtils.getUtcTicks() : null);
+        var result = corpusRepository.save(corpus);
 
-        corpusRepository.delete(corpus);
-
-        return mapper.mapToFullDto(corpus);
+        return mapper.mapToFullDto(result);
     }
 
     private CorpusEntity findByIdCorpusOrThrowNotFoundException(Long id) {

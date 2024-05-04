@@ -57,6 +57,11 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public ClassFullDto create(CreateClassDto dto) {
+        var dateStart = dto.getDateStart();
+        var dateEnd = dto.getDateEnd();
+        if (isAfter(dateStart, dateEnd)) {
+            throwDateException();
+        }
         var type = findByIdTypeOrThrowNotFoundException(dto.getTypeId());
         var subgroup = findByIdSubgroupOrThrowNotFoundException(dto.getSubgroupId());
         var teacherSubject = findByIdTeacherSubjectOrThrowNotFoundException(dto.getTeacherSubjectId());
@@ -78,6 +83,13 @@ public class ClassServiceImpl implements ClassService {
     @Override
     @Transactional
     public List<ClassFullDto> createRange(List<CreateClassDto> dtos) {
+        dtos.forEach(dto -> {
+            var dateStart = dto.getDateStart();
+            var dateEnd = dto.getDateEnd();
+            if (isAfter(dateStart, dateEnd)) {
+                throwDateException();
+            }
+        });
         var types = getLongTypeHashtable(dtos);
         var times = getLongTimeHashtable(dtos);
         var teacherSubjects = getLongTeacherSubjectHashtable(dtos);
@@ -101,6 +113,12 @@ public class ClassServiceImpl implements ClassService {
     @Override
     @Transactional
     public ClassFullDto update(UpdateClassDto dto) {
+        var dateStart = dto.getDateStart();
+        var dateEnd = dto.getDateEnd();
+        if (isAfter(dateStart, dateEnd)) {
+            throwDateException();
+        }
+
         var clazz = findByIdOrThrowNotFoundException(dto.getId());
 
         var type = findByIdTypeOrThrowNotFoundException(dto.getTypeId());
@@ -128,10 +146,18 @@ public class ClassServiceImpl implements ClassService {
         return mapper.mapToDto(clazz);
     }
 
+    private static boolean isAfter(Date dateStart, Date dateEnd) {
+        return dateStart.after(dateEnd);
+    }
+
     private ClassEntity findByIdOrThrowNotFoundException(Long id) {
         return classRepository.findById(id).orElseThrow(() ->
                 ThrowableUtils.getNotFoundException("Class with id %s is not found", id)
         );
+    }
+
+    private static void throwDateException() {
+        throw ThrowableUtils.getBadRequestException("date start was longer date end");
     }
 
     private TypeClassEntity findByIdTypeOrThrowNotFoundException(Long id) {

@@ -6,6 +6,7 @@ import by.betrayal.scheduleservice.dto.subgroup.UpdateSubgroupDto;
 import by.betrayal.scheduleservice.service.SubgroupService;
 import by.betrayal.scheduleservice.utils.pageable.PageableContainer;
 import by.betrayal.scheduleservice.utils.pageable.PageableOptions;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,13 +53,13 @@ public class SubgroupController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<SubgroupFullDto> create(@RequestBody CreateSubgroupDto dto) {
+    public ResponseEntity<SubgroupFullDto> create(@Valid @RequestBody CreateSubgroupDto dto) {
         var subgroup = service.create(dto);
         return new ResponseEntity<>(subgroup, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<SubgroupFullDto> update(@RequestBody UpdateSubgroupDto dto) {
+    public ResponseEntity<SubgroupFullDto> update(@Valid @RequestBody UpdateSubgroupDto dto) {
         var subgroup = service.update(dto);
         return new ResponseEntity<>(subgroup, HttpStatus.OK);
     }

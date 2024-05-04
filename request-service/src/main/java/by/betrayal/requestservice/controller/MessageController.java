@@ -7,6 +7,7 @@ import by.betrayal.requestservice.dto.message.UpdateMessageDto;
 import by.betrayal.requestservice.service.MessageService;
 import by.betrayal.requestservice.utils.pageable.PageableContainer;
 import by.betrayal.requestservice.utils.pageable.PageableOptions;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,19 +46,19 @@ public class MessageController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<MessageFullDto> create(@RequestBody CreateMessageDto dto) {
+    public ResponseEntity<MessageFullDto> create(@Valid @RequestBody CreateMessageDto dto) {
         var message = service.create(dto);
         return new ResponseEntity<>(message, HttpStatus.CREATED);
     }
 
     @PostMapping(ENDPOINT_CREATE_RANGE)
-    public ResponseEntity<List<MessageFullDto>> create(@RequestBody List<CreateMessageDto> dtos) {
+    public ResponseEntity<List<MessageFullDto>> create(@Valid @RequestBody List<CreateMessageDto> dtos) {
         var messages = service.create(dtos);
         return new ResponseEntity<>(messages, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<MessageFullDto> update(@RequestBody UpdateMessageDto dto) {
+    public ResponseEntity<MessageFullDto> update(@Valid @RequestBody UpdateMessageDto dto) {
         var message = service.update(dto);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

@@ -6,6 +6,7 @@ import by.betrayal.scheduleservice.dto.teachersubject.UpdateTeacherSubjectDto;
 import by.betrayal.scheduleservice.service.TeacherSubjectService;
 import by.betrayal.scheduleservice.utils.pageable.PageableContainer;
 import by.betrayal.scheduleservice.utils.pageable.PageableOptions;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,13 +51,13 @@ public class TeacherSubjectController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<TeacherSubjectFullDto> create(@RequestBody CreateTeacherSubjectDto dto) {
+    public ResponseEntity<TeacherSubjectFullDto> create(@Valid @RequestBody CreateTeacherSubjectDto dto) {
         var item = service.create(dto);
         return new ResponseEntity<>(item, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<TeacherSubjectFullDto> update(@RequestBody UpdateTeacherSubjectDto dto) {
+    public ResponseEntity<TeacherSubjectFullDto> update(@Valid @RequestBody UpdateTeacherSubjectDto dto) {
         var item = service.update(dto);
         return new ResponseEntity<>(item, HttpStatus.OK);
     }

@@ -4,6 +4,7 @@ import by.betrayal.scheduleservice.dto.clazz.ClassFullDto;
 import by.betrayal.scheduleservice.dto.clazz.CreateClassDto;
 import by.betrayal.scheduleservice.dto.clazz.UpdateClassDto;
 import by.betrayal.scheduleservice.service.ClassService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,19 +65,19 @@ public class ClassController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<ClassFullDto> create(@RequestBody CreateClassDto dto) {
+    public ResponseEntity<ClassFullDto> create(@Valid @RequestBody CreateClassDto dto) {
         var clazz = service.create(dto);
         return new ResponseEntity<>(clazz, HttpStatus.CREATED);
     }
 
     @PostMapping(ENDPOINT_CREATE)
-    public ResponseEntity<List<ClassFullDto>> createRange(@RequestBody List<CreateClassDto> dtos) {
+    public ResponseEntity<List<ClassFullDto>> createRange(@Valid @RequestBody List<CreateClassDto> dtos) {
         var classes = service.createRange(dtos);
         return new ResponseEntity<>(classes, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<ClassFullDto> update(@RequestBody UpdateClassDto dto) {
+    public ResponseEntity<ClassFullDto> update(@Valid @RequestBody UpdateClassDto dto) {
         var clazz = service.update(dto);
         return new ResponseEntity<>(clazz, HttpStatus.OK);
     }

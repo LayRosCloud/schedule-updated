@@ -18,6 +18,11 @@ databaseChangeLog:
                   type: VARCHAR(100)
                   constraints:
                     nullable: false
+              - column:
+                  name: deleted_at
+                  type: BIGINT
+                  constraints:
+                    nullable: true
         - createTable:
             tableName: housings
             columns:
@@ -45,6 +50,11 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_housing_institutions
                     references: institutions(id)
+              - column:
+                  name: deleted_at
+                  type: BIGINT
+                  constraints:
+                    nullable: true
         - createTable:
             tableName: audiences_types
             columns:
@@ -121,6 +131,3 @@ databaseChangeLog:
                   type: DATETIME
                   constraints:
                     nullable: false
-
-
-

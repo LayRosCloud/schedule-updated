@@ -17,3 +17,6 @@ spring:
     user: ${REQUEST_DB_USERNAME}
     password: ${REQUEST_DB_PWD}
     url: jdbc:mysql://${REQUEST_DB_HOST}:${REQUEST_DB_PORT}/${REQUEST_DB_SCHEMA}
+  docker:
+    compose:
+      file: request-service/compose.yaml

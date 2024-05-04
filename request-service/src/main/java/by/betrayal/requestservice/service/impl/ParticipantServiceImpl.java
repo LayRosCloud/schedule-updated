@@ -34,7 +34,8 @@ public class ParticipantServiceImpl implements ParticipantService {
     @Transactional(readOnly = true)
     public PageableContainer<ParticipantFullDto> findAllByPersonId(Long personId, PageableOptions options) {
         var pageable = PageableFactory.createPageableAsc(options);
-        var participantPage = participantRepository.findAllByPersonIdAndIsHiddenNot(personId, pageable);
+        final var isHidden = true;
+        var participantPage = participantRepository.findAllByPersonIdAndIsHidden(personId, isHidden, pageable);
         var participants = mapper.mapToDto(participantPage.getContent());
         return new PageableContainer<>(participantPage.getTotalElements(), participants);
     }

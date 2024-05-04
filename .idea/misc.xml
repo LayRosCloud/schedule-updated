@@ -4,6 +4,12 @@
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$" />
   </component>
+  <component name="NullableNotNullManager">
+    <instrumentedNotNulls>
+      <option value="javax.annotation.Nonnull" />
+      <option value="org.jetbrains.annotations.NotNull" />
+    </instrumentedNotNulls>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>

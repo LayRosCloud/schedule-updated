@@ -14,6 +14,9 @@ spring:
     url: jdbc:mysql://${PAIR_DB_HOST}:${PAIR_DB_PORT}/${PAIR_DB_SCHEMA}
     driver-class-name: com.mysql.cj.jdbc.Driver
     change-log: classpath:db/changelog/master.yml
+  docker:
+    compose:
+      file: schedule-service/compose.yaml
 server:
   port: 3456
 eureka:

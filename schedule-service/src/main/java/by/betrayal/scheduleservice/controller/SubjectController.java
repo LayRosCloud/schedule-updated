@@ -6,6 +6,7 @@ import by.betrayal.scheduleservice.dto.subject.UpdateSubjectDto;
 import by.betrayal.scheduleservice.service.SubjectService;
 import by.betrayal.scheduleservice.utils.pageable.PageableContainer;
 import by.betrayal.scheduleservice.utils.pageable.PageableOptions;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,13 +44,13 @@ public class SubjectController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<SubjectFullDto> create(@RequestBody CreateSubjectDto dto) {
+    public ResponseEntity<SubjectFullDto> create(@Valid @RequestBody CreateSubjectDto dto) {
         var subject = service.create(dto);
         return new ResponseEntity<>(subject, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<SubjectFullDto> update(@RequestBody UpdateSubjectDto dto) {
+    public ResponseEntity<SubjectFullDto> update(@Valid @RequestBody UpdateSubjectDto dto) {
         var subject = service.update(dto);
         return new ResponseEntity<>(subject, HttpStatus.OK);
     }

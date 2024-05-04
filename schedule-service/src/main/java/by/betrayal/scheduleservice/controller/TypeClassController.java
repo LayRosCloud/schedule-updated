@@ -6,6 +6,7 @@ import by.betrayal.scheduleservice.dto.clazz.type.UpdateTypeClassDto;
 import by.betrayal.scheduleservice.service.TypeClassService;
 import by.betrayal.scheduleservice.utils.pageable.PageableContainer;
 import by.betrayal.scheduleservice.utils.pageable.PageableOptions;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,13 +49,13 @@ public class TypeClassController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<TypeClassFullDto> create(@RequestBody CreateTypeClassDto dto) {
+    public ResponseEntity<TypeClassFullDto> create(@Valid @RequestBody CreateTypeClassDto dto) {
         var type = service.create(dto);
         return new ResponseEntity<>(type, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<TypeClassFullDto> update(@RequestBody UpdateTypeClassDto dto) {
+    public ResponseEntity<TypeClassFullDto> update(@Valid @RequestBody UpdateTypeClassDto dto) {
         var type = service.update(dto);
         return new ResponseEntity<>(type, HttpStatus.OK);
     }

@@ -5,7 +5,6 @@ import by.betrayal.requestservice.dto.message.MessageFullDto;
 import by.betrayal.requestservice.dto.message.MessagePreviewDto;
 import by.betrayal.requestservice.dto.message.UpdateMessageDto;
 import by.betrayal.requestservice.entity.MessageEntity;
-import by.betrayal.requestservice.entity.TypeMessage;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -21,8 +20,8 @@ public interface MessageMapper {
     List<MessageFullDto> mapToFullDto(List<MessageEntity> messages);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "created_at", ignore = true)
-    @Mapping(target = "updated_at", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     MessageEntity mapToEntity(CreateMessageDto dto);
 
     default void mapToEntity(MessageEntity message, UpdateMessageDto dto) {

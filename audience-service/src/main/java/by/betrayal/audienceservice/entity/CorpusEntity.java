@@ -21,4 +21,7 @@ public class CorpusEntity {
     @ManyToOne
     @JoinColumn(name = "institution_id", nullable = false)
     private InstitutionEntity institution;
+
+    @Column(name = "deleted_at", nullable = true)
+    private Long deletedAt;
 }

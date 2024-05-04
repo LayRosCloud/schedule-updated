@@ -7,14 +7,15 @@ import by.betrayal.scheduleservice.entity.TimeEntity;
 import by.betrayal.scheduleservice.mapper.TimeMapper;
 import by.betrayal.scheduleservice.repository.TimeRepository;
 import by.betrayal.scheduleservice.service.TimeService;
+import by.betrayal.scheduleservice.utils.ThrowableUtils;
 import by.betrayal.scheduleservice.utils.pageable.PageableContainer;
 import by.betrayal.scheduleservice.utils.pageable.PageableFactory;
 import by.betrayal.scheduleservice.utils.pageable.PageableOptions;
-import by.betrayal.scheduleservice.utils.ThrowableUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Time;
 import java.util.List;
 
 @Service
@@ -51,6 +52,11 @@ public class TimeServiceImpl implements TimeService {
     @Override
     @Transactional
     public TimeFullDto create(CreateTimeDto dto) {
+
+        if (isAfter(dto.getTimeStart(), dto.getTimeEnd())) {
+            throwTimeRequestException();
+        }
+
         var item = mapper.mapToEntity(dto);
 
         var result = repository.save(item);
@@ -61,6 +67,10 @@ public class TimeServiceImpl implements TimeService {
     @Override
     @Transactional
     public TimeFullDto update(UpdateTimeDto dto) {
+        if (isAfter(dto.getTimeStart(), dto.getTimeEnd())) {
+            throwTimeRequestException();
+        }
+
         var item = findByIdTimeOrThrowNotFoundException(dto.getId());
         mapper.mapToEntity(item, dto);
         var result = repository.save(item);
@@ -82,5 +92,13 @@ public class TimeServiceImpl implements TimeService {
         return repository.findById(id).orElseThrow(() ->
                 ThrowableUtils.getNotFoundException("Time with id %s is not found", id)
         );
+    }
+
+    private static void throwTimeRequestException() {
+        throw ThrowableUtils.getBadRequestException("time start was longer time end");
+    }
+
+    private static boolean isAfter(Time timeStart, Time timeEnd) {
+        return timeStart.after(timeEnd);
     }
 }

@@ -6,6 +6,7 @@ import by.betrayal.groupservice.dto.faculty.UpdateFacultyDto;
 import by.betrayal.groupservice.service.FacultyService;
 import by.betrayal.groupservice.utils.pageable.PageableContainer;
 import by.betrayal.groupservice.utils.pageable.PageableOptions;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,13 +44,13 @@ public class FacultyController {
     }
 
     @PostMapping(ENDPOINT)
-    public ResponseEntity<FacultyFullDto> create(@RequestBody CreateFacultyDto dto) {
+    public ResponseEntity<FacultyFullDto> create(@Valid @RequestBody CreateFacultyDto dto) {
         var group = service.create(dto);
         return new ResponseEntity<>(group, HttpStatus.CREATED);
     }
 
     @PutMapping(ENDPOINT)
-    public ResponseEntity<FacultyFullDto> update(@RequestBody UpdateFacultyDto dto) {
+    public ResponseEntity<FacultyFullDto> update(@Valid @RequestBody UpdateFacultyDto dto) {
         var faculty = service.update(dto);
         return new ResponseEntity<>(faculty, HttpStatus.OK);
     }

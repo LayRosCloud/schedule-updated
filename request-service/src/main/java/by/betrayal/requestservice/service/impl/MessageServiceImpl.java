@@ -8,6 +8,7 @@ import by.betrayal.requestservice.entity.MessageEntity;
 import by.betrayal.requestservice.entity.ParticipantEntity;
 import by.betrayal.requestservice.entity.TypeMessage;
 import by.betrayal.requestservice.mapper.MessageMapper;
+import by.betrayal.requestservice.output.MessageProducer;
 import by.betrayal.requestservice.repository.MessageRepository;
 import by.betrayal.requestservice.repository.ParticipantRepository;
 import by.betrayal.requestservice.service.MessageService;
@@ -30,6 +31,7 @@ public class MessageServiceImpl implements MessageService {
     private final MessageRepository messageRepository;
     private final ParticipantRepository participantRepository;
     private final MessageMapper mapper;
+    private final MessageProducer messageProducer;
 
     @Override
     @Transactional(readOnly = true)
@@ -61,6 +63,8 @@ public class MessageServiceImpl implements MessageService {
         message.setType(TypeMessage.USER);
 
         var result = messageRepository.save(message);
+        messageProducer.sendMessage(result);
+
         return mapper.mapToFullDto(result);
     }
 
@@ -85,6 +89,7 @@ public class MessageServiceImpl implements MessageService {
         }
 
         var result = messageRepository.saveAll(listMessages);
+        result.forEach(messageProducer::sendMessage);
 
         return mapper.mapToFullDto(result);
     }
